@@ -130,7 +130,10 @@ jpa
 
 #### Step 2:
 Check console logs before optimizing.
-JDBC Total execute Time: 98min
+JDBC Total execute Time: 97min
+
+From console log we can find it spent too much time on flush method.
+Flushing is the process of synchronizing the underlying persistent store with persistable state held in memory. So I try to find a way to balance the persistent store and the state of memory.
 
 ``` bash
 9498503900 nanoseconds spent preparing 150158 JDBC statements;
@@ -228,13 +231,12 @@ check the console log again. you will find something different.
 JDBC Total execute Time: 2.3min
 
 ``` bash
-6957340700 nanoseconds spent preparing 162204 JDBC statements;
-41894343700 nanoseconds spent executing 150186 JDBC statements;
-10699438700 nanoseconds spent executing 12351 JDBC batches;
-33201743100 nanoseconds spent executing 12355 flushes (flushing a total of 646277 entities and 360396 collections)
-47066793200 nanoseconds spent executing 130167 partial-flushes (flushing a total of 7690767 entities and 7690767 collections)
+6957340700 nanoseconds spent preparing 162103 JDBC statements;
+41894343700 nanoseconds spent executing 150076 JDBC statements;
+10699438700 nanoseconds spent executing 12451 JDBC batches;
+33201743100 nanoseconds spent executing 13355 flushes (flushing a total of 643287 entities and 350386 collections)
+47066793200 nanoseconds spent executing 110207 partial-flushes (flushing a total of 7691757 entities and 7694668 collections)
 ```
-
 
 ■ By the way, here is some userful articles maybe helpful for you
 https://terasolunaorg.github.io/guideline/public_review/ArchitectureInDetail/DataAccessJpa.html#spring-data-jpa
